@@ -24,18 +24,28 @@ evals<-read.csv("data/evals.csv", row.names=1)
 1.  Visualize the distribution of `score` in the dataframe `evals`.
 
 ```{r viz-score}
-# add code here
+
+ggplot(evals, aes(x = score)) +
+  geom_bar()
+
+evals_stats <- evals %>%
+  summarise(median_score = median(score), mean_score = mean(score))
+
+evals_stats
 ```
 
-*Add your other details and narratives here.*
+*The distribution is left skewed. It tells us that the majority of students rate courses with high scores. Yes, I expected to see more high scores than low scores, because students are usually satisfied of their courses. 
+
+The median score is 4.3 / 5 ( which is quite high ) and the average score is about 4.17 / 5*
 
 2.  Visualize and describe the relationship between `score` and `bty_avg` using `geom_point()` to represent the data. 
 
 ```{r scatterplot}
-# add code here
+ggplot(evals, aes(x = bty_avg, y = score)) +
+  geom_jitter()
 ```
 
-*Add your narrative and other details here.*
+*Jitter gives a better view of overlapping data points. What was misleading in the first plot is that some points overlapped but we couldn't see them, thus the plot wasn't a right representation of the overlapping data.*
 
 # Exercise 2: Simple Linear regression with a numerical predictor
 
@@ -45,20 +55,22 @@ evals<-read.csv("data/evals.csv", row.names=1)
 # remove eval = FALSE from the code chunk options after filling in the blanks
 score_bty_fit <- linear_reg() %>%
   set_engine("lm") %>%
-  fit(___ ~ ___, data = ___)
+  fit(score ~ bty_avg, data = evals)
 ```
 
 ```{r tidy-score_bty_fit, eval = FALSE}
 # remove eval = FALSE from the code chunk options after filling in the blanks
-tidy(___)
+tidy(score_bty_fit)
 ```
 
-*Add your linear model here. Don't worry too much about notation, you can use things like score-hat.*
+*score_hat = 3.88 + 0.067*bty_avg *
 
 2. Plot the data again using `geom_jitter()`, and add the regression line.
 
 ```{r viz-score_bty_fit,eval=FALSE}
-# add your plot here. Hint, you can add the regression line using geom_smooth()
+ggplot(evals, aes(x = bty_avg, y = score)) +
+  geom_jitter() +
+  geom_smooth(method = "lm", se = FALSE)
 ```
 
 3. Interpret the slope of the linear model in context of the data.
