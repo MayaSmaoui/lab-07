@@ -75,20 +75,20 @@ ggplot(evals, aes(x = bty_avg, y = score)) +
 
 3. Interpret the slope of the linear model in context of the data.
 
-*Add your interpretation here*
+*For each additional point in beauty average, we would expect the score to be higher, on average by 0.067 out of 5.*
 
 4. Interpret the intercept of the linear model in context of the data. Comment on whether or not the intercept makes sense in this context.
 
-*Add your interpretation here*
+*Teachers with 0 point in beauty_average are expected to have a score of 3.88 out of 5 on average. The intercept does make sense in this context.*
 
 5. Determine the $R^2$ of the model and interpret it in the context of the data.
 
 ```{r R2, eval = FALSE}
 # remove eval = FALSE from the code chunk options after filling in the blanks
-glance(___)$___
+glance(score_bty_fit)$r.squared
 ```
 
-*Add your interpretation here*
+*The percentage of variability in the score explained by the regression model is 0.035.*
 
 6. Make a plot of residuals vs. predicted values for the model above.
 
@@ -96,7 +96,9 @@ glance(___)$___
 # remove eval = FALSE from the code chunk options after filling in the blanks
 score_bty_aug <- augment(score_bty_fit$fit)
 
-ggplot(___) + ...
+ggplot(score_bty_aug, aes(x = .fitted, y = .resid)) +
+  geom_jitter() +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red")
 ```
 
 # Exercise 3: Simple Linear regression with a categorical predictor
